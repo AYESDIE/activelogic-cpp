@@ -1,4 +1,5 @@
 #include <iostream>
+#include <functional>
 using namespace std;
 
 /*
@@ -28,9 +29,9 @@ public:
 
     status operator!() const { return status(-value); }
 
-    status op_and (function<status()> rhs){ return value==-1 ? value : rhs(); }
+    status op_and (std::function<status()> rhs){ return value==-1 ? value : rhs(); }
 
-    status op_or  (function<status()> rhs){ return value==+1 ? value : rhs(); }
+    status op_or  (std::function<status()> rhs){ return value==+1 ? value : rhs(); }
 
     char symbol(){
         switch(value){
@@ -41,7 +42,7 @@ public:
         }
     }
 
-}
+};
 
 // ----------------------------------------------------------------------------
 
@@ -50,8 +51,8 @@ public:
 // #define or(x) .xr([=]{ return (x);})
 
 // // greek
-#define ε(x)  .op_and ([=]{ return (x); })
-#define α(x)  .op_or  ([=]{ return (x); })
+#define e(x)  .op_and ([=]{ return (x); })
+#define a(x)  .op_or  ([=]{ return (x); })
 
 // latin forms
 #define et(x) .op_and ([=]{ return (x); })
@@ -62,7 +63,7 @@ status seq0(status& x, status& y){
 }
 
 status seq1(status& x, status& y){
-    return (x) ε (y) α (x);
+    return (x) e (y) a (x);
 }
 
 status seq2(status& x, status& y){
